@@ -3,15 +3,6 @@ import react from "@vitejs/plugin-react";
 
 const defaultConfig = {
   plugins: [react()],
-  optimizeDeps: {
-    esbuildOptions: {
-      // Node.js global to browser globalThis
-      define: {
-        global: "globalThis",
-        process: {},
-      },
-    },
-  },
 };
 
 // https://vitejs.dev/config/
@@ -21,6 +12,7 @@ export default defineConfig(({ command }) => {
     return {
       ...defaultConfig,
       define: {
+        global: "globalThis",
         process: {
           env: "development",
         },
@@ -29,5 +21,5 @@ export default defineConfig(({ command }) => {
   }
 
   //prod config
-  return defaultConfig;
+  return { ...defaultConfig, define: { global: "globalThis" } };
 });
