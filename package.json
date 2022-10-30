@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "deploy": "yarn build && npx thirdweb@latest upload dist"
   },
   "dependencies": {
     "@thirdweb-dev/react": "^3",
