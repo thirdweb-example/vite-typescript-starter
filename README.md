@@ -8,9 +8,15 @@ npx thirdweb create --template vite-typescript-starter
 
 You can start editing the page by modifying `src/main.tsx`. The page auto-updates as you edit the file.
 
-On `src/index.tsx`, you'll find our `ThirdwebProvider` wrapping your app, this is necessary for our hooks to work.
+On `src/index.tsx`, you'll find our `ThirdwebProvider` wrapping your app, this is necessary for our hooks and UI components to work.
 
-on `src/App.tsx`, you'll find the `useMetamask` hook that we use to connect the user's wallet to MetaMask, `useDisconnect` that we use to disconnect it, and `useAddress` to check the user's wallet address once connected. 
+### Deploy to IPFS
+
+Deploy a copy of your application to IPFS using the following command:
+
+```bash
+yarn deploy
+```
 
 ## Learn More
 
