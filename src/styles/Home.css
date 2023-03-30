@@ -36,7 +36,8 @@
 
 .connect {
   margin-bottom: 2rem;
-  width: 230px;
+  display: flex;
+  justify-content: center;
 }
 
 .description {
