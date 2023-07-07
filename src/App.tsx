@@ -30,7 +30,7 @@ export default function Home() {
 
 					<Web3Button
 						className='my-web3-button'
-						contractAddress='0x242674c150A59B9297c725be75732B29dEA25a2f' // goerli
+						contractAddress='0x53678762171dE663F079e3468A50206E58a99599' // polygon
 						action={async contract => {
 							await contract.erc1155.claim(0, 1);
 						}}
