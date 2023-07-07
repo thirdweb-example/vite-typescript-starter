@@ -35,7 +35,7 @@ export default function Home() {
 							await contract.erc1155.claim(0, 1);
 						}}
 						onError={e => {
-							toast('Error!');
+							toast('Error: \n' + e.message);
 						}}
 						onSuccess={data => {
 							toast('Success!');
