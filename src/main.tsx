@@ -1,20 +1,23 @@
-import React from "react";
-import { createRoot } from "react-dom/client";
-import App from "./App";
-import { ThirdwebProvider } from "@thirdweb-dev/react";
-import "./styles/globals.css";
+import { createRoot } from 'react-dom/client';
+import { App } from './App';
+import {
+	ThirdwebProvider,
+	metamaskWallet,
+	coinbaseWallet,
+	walletConnect,
+	magicLink,
+} from '@thirdweb-dev/react';
+import { ThemeProvider } from './ThemeContext';
+import { magicConfig } from './magicConfig';
 
-// This is the chain your dApp will work on.
-// Change this to the chain your app is built for.
-// You can also import additional chains from `@thirdweb-dev/chains` and pass them directly.
-const activeChain = "ethereum";
+const root = createRoot(document.getElementById('root')!);
 
-const container = document.getElementById("root");
-const root = createRoot(container!);
 root.render(
-  <React.StrictMode>
-    <ThirdwebProvider activeChain={activeChain}>
-      <App />
-    </ThirdwebProvider>
-  </React.StrictMode>
+	<ThemeProvider value='dark'>
+		<ThirdwebProvider
+			supportedWallets={[metamaskWallet(), coinbaseWallet(), walletConnect(), magicConfig]}
+		>
+			<App />
+		</ThirdwebProvider>
+	</ThemeProvider>
 );

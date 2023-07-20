@@ -1,99 +1,49 @@
-import { ConnectWallet } from "@thirdweb-dev/react";
-import "./styles/Home.css";
+import {
+	ConnectWallet,
+	useWallet,
+	useConnect,
+	useConnectionStatus,
+	useAddress,
+} from '@thirdweb-dev/react';
+import { useTheme } from './ThemeContext';
+import { useEffect, useState } from 'react';
+import './styles/globals.css';
+import { magicConfig } from './magicConfig';
 
-export default function Home() {
-  return (
-    <main className="main">
-      <div className="container">
-        <div className="header">
-          <h1 className="title">
-            Welcome to{" "}
-            <span className="gradient-text-0">
-              <a
-                href="https://thirdweb.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                thirdweb.
-              </a>
-            </span>
-          </h1>
+export function App() {
+	const [theme, setTheme] = useTheme();
 
-          <p className="description">
-            Get started by configuring your desired network in{" "}
-            <code className="code">src/index.js</code>, then modify the{" "}
-            <code className="code">src/App.js</code> file!
-          </p>
+	useEffect(() => {
+		document.body.dataset.theme = theme;
+	}, [theme]);
 
-          <div className="connect">
-            <ConnectWallet
-              dropdownPosition={{
-                side: "bottom",
-                align: "center",
-              }}
-            />
-          </div>
-        </div>
+	return (
+		<div className='container'>
+			{/* Connect Wallet  */}
+			<nav>
+				<ConnectWallet
+					theme={theme}
+					modalTitle='Login'
+					dropdownPosition={{
+						align: 'start',
+						side: 'bottom',
+					}}
+				/>
+			</nav>
 
-        <div className="grid">
-          <a
-            href="https://portal.thirdweb.com/"
-            className="card"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <img
-              src="/images/portal-preview.png"
-              alt="Placeholder preview of starter"
-            />
-            <div className="card-text">
-              <h2 className="gradient-text-1">Portal ➜</h2>
-              <p>
-                Guides, references, and resources that will help you build with
-                thirdweb.
-              </p>
-            </div>
-          </a>
+			{/* Theme Switcher  */}
+			<button
+				onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+				className='theme-switcher'
+			>
+				switch theme
+			</button>
 
-          <a
-            href="https://thirdweb.com/dashboard"
-            className="card"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <img
-              src="/images/dashboard-preview.png"
-              alt="Placeholder preview of starter"
-            />
-            <div className="card-text">
-              <h2 className="gradient-text-2">Dashboard ➜</h2>
-              <p>
-                Deploy, configure, and manage your smart contracts from the
-                dashboard.
-              </p>
-            </div>
-          </a>
-
-          <a
-            href="https://thirdweb.com/templates"
-            className="card"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <img
-              src="/images/templates-preview.png"
-              alt="Placeholder preview of templates"
-            />
-            <div className="card-text">
-              <h2 className="gradient-text-3">Templates ➜</h2>
-              <p>
-                Discover and clone template projects showcasing thirdweb
-                features.
-              </p>
-            </div>
-          </a>
-        </div>
-      </div>
-    </main>
-  );
+			<div
+				style={{
+					height: '80px',
+				}}
+			/>
+		</div>
+	);
 }

@@ -1,22 +1,94 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
+/* * {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+} */
+
+body[data-theme='dark'] {
+	--bg: black;
+	--text: white;
+	--card: #222;
+}
+
+body[data-theme='light'] {
+	--bg: #ddd;
+	--text: black;
+	--card: #eee;
+}
+
+body {
+	background: var(--bg);
+	color: var(--text);
+	font-family: 'Inter', sans-serif;
+}
 
 html,
 body {
-  padding: 0;
-  margin: 0;
-  font-family: "Inter", sans-serif;
+	height: 100%;
 }
 
-a {
-  color: #84309c;
-  text-decoration: none;
+.container {
+	max-width: 1000px;
+	margin: 0 auto;
+	padding: 20px;
 }
 
-* {
-  box-sizing: border-box;
+.theme-switcher {
+	all: unset;
+	padding: 10px 20px;
+	background: var(--text);
+	color: var(--bg);
+	border-radius: 8px;
+	position: absolute;
+	bottom: 40px;
+	right: 40px;
 }
 
-body {
-  color: #e7e8e8;
-  background: #070707;
+.btn {
+	padding: 10px 20px;
+	background: var(--text);
+	color: var(--bg);
+	border-radius: 8px;
+	font-size: 16px;
+	cursor: pointer;
+	outline: none;
+	border: none;
+}
+
+.btn[disabled] {
+	opacity: 0.7;
+	cursor: not-allowed;
+}
+
+nav {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 10px 0;
+	margin-bottom: 40px;
+}
+
+.logo-text {
+	font-size: 30px;
+}
+
+.card {
+	border: 2px solid var(--card);
+	padding: 20px;
+	border-radius: 6px;
+	margin-bottom: 30px;
+}
+
+.card p {
+	margin-bottom: 20px;
+}
+
+.walletconnect-modal__mobile__toggle a {
+	color: black !important;
+}
+
+.btn-group {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 14px;
 }
