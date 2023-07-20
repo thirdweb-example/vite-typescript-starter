@@ -41,7 +41,7 @@ export default function Home() {
 							toast('Success!');
 						}}
 					>
-						ERC 1155 Claim (Goerli)
+						ERC 1155 Claim (polygon)
 					</Web3Button>
 				</div>
 			</div>
