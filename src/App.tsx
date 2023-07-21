@@ -1,10 +1,12 @@
-import { ConnectWallet, Web3Button } from '@thirdweb-dev/react';
+import { ConnectWallet, Web3Button, useConnectionStatus, useSigner } from '@thirdweb-dev/react';
 import './styles/Home.css';
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 export default function Home() {
+	const connectionStatus = useConnectionStatus();
+	const signer = useSigner();
 	return (
 		<main className='main'>
 			<ToastContainer theme='dark' />
@@ -28,22 +30,44 @@ export default function Home() {
 						/>
 					</div>
 
-					<Web3Button
-						className='my-web3-button'
-						contractAddress='0x53678762171dE663F079e3468A50206E58a99599' // polygon
-						action={async contract => {
-							await contract.erc1155.claim(0, 1);
+					{connectionStatus === 'connected' && (
+						<Web3Button
+							className='my-web3-button'
+							contractAddress='0x53678762171dE663F079e3468A50206E58a99599' // polygon
+							action={async contract => {
+								await contract.erc1155.claim(0, 1);
+							}}
+							onError={e => {
+								toast('Error: \n' + e.message);
+							}}
+							onSuccess={data => {
+								toast('Success!');
+							}}
+						>
+							ERC 1155 Claim (polygon)
+						</Web3Button>
+					)}
+				</div>
+
+				{signer && (
+					<button
+						style={{
+							marginTop: '20px',
 						}}
-						onError={e => {
-							toast('Error: \n' + e.message);
-						}}
-						onSuccess={data => {
-							toast('Success!');
+						className='btn'
+						onClick={async () => {
+							try {
+								const signature = await signer.signMessage('Hello');
+								toast('Signature: \n' + signature);
+							} catch (e: any) {
+								toast('Error: \n' + e?.message);
+							}
 						}}
 					>
-						ERC 1155 Claim (polygon)
-					</Web3Button>
-				</div>
+						{' '}
+						Sign Message: "Hello"{' '}
+					</button>
+				)}
 			</div>
 		</main>
 	);
