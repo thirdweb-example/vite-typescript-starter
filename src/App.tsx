@@ -10,7 +10,7 @@ export default function Home() {
             <ConnectWallet
               dropdownPosition={{
                 side: "bottom",
-                align: "center",
+                align: "start",
               }}
             />
           </div>
