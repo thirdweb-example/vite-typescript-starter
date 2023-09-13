@@ -19,18 +19,16 @@ root.render(
 );
 
 function AppContainer() {
-  const [isAWSManaged, setIsAWSManaged] = React.useState(false);
+  // const [isAWSManaged, setIsAWSManaged] = React.useState(false);
 
   return (
     <ThirdwebProvider
       clientId={import.meta.env.VITE_TEMPLATE_CLIENT_ID}
       supportedWallets={[
         paperWallet({
-          paperClientId: "62db6ab5-3165-4aac-b7a5-b52bb39e8d69",
+          clientId: import.meta.env.VITE_TEMPLATE_CLIENT_ID,
           advancedOptions: {
-            recoveryShareManagement: isAWSManaged
-              ? "AWS_MANAGED"
-              : "USER_MANAGED",
+            recoveryShareManagement: "AWS_MANAGED",
           },
         }),
         metamaskWallet(),
@@ -38,32 +36,7 @@ function AppContainer() {
         walletConnect(),
       ]}
     >
-      <div
-        className="container"
-        style={{
-          marginBottom: "40px",
-        }}
-      >
-        <h2>Paper Recovery Share Management </h2>
-
-        <button
-          className={isAWSManaged ? "selected" : ""}
-          onClick={() => {
-            setIsAWSManaged(true);
-          }}
-        >
-          AWS_MANAGED
-        </button>
-
-        <button
-          className={!isAWSManaged ? "selected" : ""}
-          onClick={() => {
-            setIsAWSManaged(false);
-          }}
-        >
-          USER_MANAGED
-        </button>
-      </div>
+      <div className="container"></div>
       <App />
     </ThirdwebProvider>
   );

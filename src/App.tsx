@@ -8,6 +8,7 @@ export default function Home() {
         <div className="header">
           <div className="connect">
             <ConnectWallet
+              modalSize="compact"
               dropdownPosition={{
                 side: "bottom",
                 align: "start",
