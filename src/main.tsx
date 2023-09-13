@@ -3,10 +3,19 @@ import { createRoot } from "react-dom/client";
 import App from "./App";
 import {
   ThirdwebProvider,
+  bloctoWallet,
   coinbaseWallet,
+  frameWallet,
+  localWallet,
   metamaskWallet,
   paperWallet,
+  phantomWallet,
+  rainbowWallet,
+  safeWallet,
+  smartWallet,
+  trustWallet,
   walletConnect,
+  zerionWallet,
 } from "@thirdweb-dev/react";
 import "./styles/globals.css";
 
@@ -18,25 +27,41 @@ root.render(
   </React.StrictMode>
 );
 
-function AppContainer() {
-  // const [isAWSManaged, setIsAWSManaged] = React.useState(false);
+const eoaWallets = [
+  localWallet(),
+  // paperWallet(),
+  metamaskWallet({
+    recommended: true,
+  }),
+  coinbaseWallet({
+    recommended: true,
+  }),
+  walletConnect(),
+  trustWallet(),
+  rainbowWallet(),
+  zerionWallet(),
+  phantomWallet(),
+  frameWallet(),
+  bloctoWallet(),
+];
 
+function AppContainer() {
   return (
     <ThirdwebProvider
+      activeChain="mumbai"
       clientId={import.meta.env.VITE_TEMPLATE_CLIENT_ID}
       supportedWallets={[
-        paperWallet({
-          clientId: import.meta.env.VITE_TEMPLATE_CLIENT_ID,
-          advancedOptions: {
-            recoveryShareManagement: "AWS_MANAGED",
-          },
+        ...eoaWallets,
+        safeWallet({
+          personalWallets: eoaWallets,
         }),
-        metamaskWallet(),
-        coinbaseWallet(),
-        walletConnect(),
+        smartWallet({
+          factoryAddress: "0x219312a1c180B82abEE14FbDB4C9EE04E90c1809", // mumbai
+          gasless: true,
+          personalWallets: eoaWallets,
+        }),
       ]}
     >
-      <div className="container"></div>
       <App />
     </ThirdwebProvider>
   );
