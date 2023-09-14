@@ -1,4 +1,4 @@
-import { ConnectWallet, darkTheme } from "@thirdweb-dev/react";
+import { ConnectWallet, Web3Button, darkTheme } from "@thirdweb-dev/react";
 import "./styles/Home.css";
 
 export default function Home() {
@@ -83,6 +83,38 @@ export default function Home() {
             align: "center",
           }}
         />
+
+        {spacer}
+        <p> web3button with custom ConnectWallet </p>
+        <Web3Button
+          theme={darkTheme({
+            colors: {
+              primaryButtonBg: "orange",
+              primaryButtonText: "black",
+              primaryText: "white",
+              modalBg: "black",
+              accentText: "orange",
+              accentButtonBg: "red",
+            },
+          })}
+          action={async (contract) => {
+            await contract.erc1155.claim(0, 1);
+          }}
+          connectWallet={{
+            modalSize: "compact",
+            modalTitle: "Login",
+            btnTitle: "Claim NFT",
+          }}
+          contractAddress="0x88f54479F9DB46c2d97823D01CC316aa88B54a33"
+          onError={(e) => {
+            alert(e.message);
+          }}
+          onSuccess={() => {
+            alert("Success");
+          }}
+        >
+          Claim NFT
+        </Web3Button>
       </div>
     </main>
   );
