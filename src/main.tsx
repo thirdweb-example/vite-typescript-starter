@@ -5,6 +5,7 @@ import {
   ThirdwebProvider,
   bloctoWallet,
   coinbaseWallet,
+  darkTheme,
   frameWallet,
   localWallet,
   magicLink,
@@ -55,6 +56,16 @@ const eoaWallets = [
 function AppContainer() {
   return (
     <ThirdwebProvider
+      // theme={darkTheme({
+      //   colors: {
+      //     modalBg: "black",
+      //     dropdownBg: "black",
+      //     accentText: "yellow",
+      //     primaryButtonBg: "yellow",
+      //     primaryButtonText: "black",
+      //     connectedButtonBg: "black",
+      //   },
+      // })}
       activeChain="mumbai"
       clientId={import.meta.env.VITE_TEMPLATE_CLIENT_ID}
       supportedWallets={[
