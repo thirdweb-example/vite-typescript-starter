@@ -7,6 +7,7 @@ import {
   coinbaseWallet,
   frameWallet,
   localWallet,
+  magicLink,
   metamaskWallet,
   paperWallet,
   phantomWallet,
@@ -30,6 +31,12 @@ root.render(
 const eoaWallets = [
   localWallet(),
   // paperWallet(),
+  // magicLink({
+  //   oauthOptions: {
+  //     providers: ["google", "facebook", "twitter", "apple"],
+  //   },
+  //   apiKey: "pk_live_3EFC32B01A29985C", // demo key
+  // }),
   metamaskWallet({
     recommended: true,
   }),
