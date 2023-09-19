@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { createRoot } from "react-dom/client";
 import App from "./App";
 import {
@@ -6,6 +6,7 @@ import {
   bloctoWallet,
   coinbaseWallet,
   darkTheme,
+  embeddedWallet,
   frameWallet,
   localWallet,
   magicLink,
@@ -20,6 +21,7 @@ import {
   zerionWallet,
 } from "@thirdweb-dev/react";
 import "./styles/globals.css";
+import { defaultChains, FncyTestnet } from "@thirdweb-dev/chains";
 
 const container = document.getElementById("root");
 const root = createRoot(container!);
@@ -30,7 +32,8 @@ root.render(
 );
 
 const eoaWallets = [
-  localWallet(),
+  // localWallet(),
+  embeddedWallet(),
   // paperWallet(),
   // magicLink({
   //   oauthOptions: {
@@ -54,6 +57,24 @@ const eoaWallets = [
 ];
 
 function AppContainer() {
+  const [enableSmartWallet, setEnableSmartWallet] = useState(false);
+
+  const wallets = [
+    ...eoaWallets,
+    safeWallet({
+      personalWallets: eoaWallets,
+    }),
+  ];
+
+  const walletConfigs = enableSmartWallet
+    ? wallets.map((wallet) =>
+        smartWallet(wallet, {
+          factoryAddress: "0x219312a1c180B82abEE14FbDB4C9EE04E90c1809",
+          gasless: true,
+        })
+      )
+    : wallets;
+
   return (
     <ThirdwebProvider
       // theme={darkTheme({
@@ -67,19 +88,33 @@ function AppContainer() {
       //   },
       // })}
       activeChain="mumbai"
+      key={wallets.map((w) => w.id).join(",") + enableSmartWallet}
       clientId={import.meta.env.VITE_TEMPLATE_CLIENT_ID}
-      supportedWallets={[
-        ...eoaWallets,
-        safeWallet({
-          personalWallets: eoaWallets,
-        }),
-        smartWallet({
-          factoryAddress: "0x219312a1c180B82abEE14FbDB4C9EE04E90c1809", // mumbai
-          gasless: true,
-          personalWallets: eoaWallets,
-        }),
-      ]}
+      supportedWallets={walletConfigs}
+      supportedChains={[...defaultChains, FncyTestnet]}
     >
+      <div
+        style={{
+          display: "flex",
+          padding: "20px",
+          alignItems: "center",
+          gap: "10px",
+        }}
+      >
+        Enable Smart Wallet
+        <input
+          type="checkbox"
+          checked={enableSmartWallet}
+          onChange={(e) => {
+            setEnableSmartWallet(e.target.checked);
+          }}
+          style={{
+            width: "20px",
+            height: "20px",
+          }}
+        />
+        ({enableSmartWallet ? "enabled" : "disabled"})
+      </div>
       <App />
     </ThirdwebProvider>
   );
