@@ -33,8 +33,8 @@ root.render(
 
 const eoaWallets = [
   // localWallet(),
-  embeddedWallet(),
-  // paperWallet(),
+  // embeddedWallet(),
+  paperWallet(),
   // magicLink({
   //   oauthOptions: {
   //     providers: ["google", "facebook", "twitter", "apple"],
