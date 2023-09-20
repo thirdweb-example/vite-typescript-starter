@@ -1,98 +1,125 @@
-import { ConnectWallet } from "@thirdweb-dev/react";
+import {
+  ConnectWallet,
+  ThirdwebProvider,
+  WalletConfig,
+  coinbaseWallet,
+  metamaskWallet,
+  rainbowWallet,
+  signerWallet,
+  useAddress,
+  useConnect,
+  useConnectionStatus,
+  useDisconnect,
+  walletConnect,
+} from "@thirdweb-dev/react";
+import type { SignerWallet } from "@thirdweb-dev/wallets";
 import "./styles/Home.css";
+import { ethers } from "ethers";
 
 export default function Home() {
+  const fooBarWallet = signerWallet({
+    async getSigner() {
+      // just an example
+      // create a random signer
+      const wallet = ethers.Wallet.createRandom();
+      // some fake delay to simulate a real wallet connection
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      return wallet; // wallet is a signer
+    },
+    meta: {
+      name: "Foo Bar",
+      iconURL:
+        "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSI+PHBhdGggeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiBkPSJNMzk0IDQ4MGExNiAxNiAwIDAgMS05LjM5LTNMMjU2IDM4My43NiAxMjcuMzkgNDc3YTE2IDE2IDAgMCAxLTI0LjU1LTE4LjA4TDE1MyAzMTAuMzUgMjMgMjIxLjJhMTYgMTYgMCAwIDEgOS0yOS4yaDE2MC4zOGw0OC40LTE0OC45NWExNiAxNiAwIDAgMSAzMC40NCAwbDQ4LjQgMTQ5SDQ4MGExNiAxNiAwIDAgMSA5LjA1IDI5LjJMMzU5IDMxMC4zNWw1MC4xMyAxNDguNTNBMTYgMTYgMCAwIDEgMzk0IDQ4MHoiIHN0eWxlPSJmaWxsOiByZ2IoMjQ3LCAyMjAsIDExMSk7Ij48L3BhdGg+PC9zdmc+",
+    },
+  });
+
+  return (
+    <ThirdwebProvider
+      supportedWallets={[
+        fooBarWallet,
+        metamaskWallet(),
+        coinbaseWallet(),
+        walletConnect(),
+      ]}
+      clientId={import.meta.env.VITE_TEMPLATE_CLIENT_ID}
+      activeChain="ethereum"
+      dAppMeta={{
+        name: "Foo Bar",
+        url: "https://foobar.com",
+      }}
+    >
+      <AppContent fooBarWallet={fooBarWallet} />
+    </ThirdwebProvider>
+  );
+}
+
+function AppContent(props: { fooBarWallet: WalletConfig<SignerWallet> }) {
+  const connect = useConnect();
+  const disconnect = useDisconnect();
+  const connectionStatus = useConnectionStatus();
+  const address = useAddress();
+
   return (
     <main className="main">
       <div className="container">
-        <div className="header">
-          <h1 className="title">
-            Welcome to{" "}
-            <span className="gradient-text-0">
-              <a
-                href="https://thirdweb.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                thirdweb.
-              </a>
-            </span>
-          </h1>
+        <h1> Signer wallet test </h1>
 
-          <p className="description">
-            Get started by configuring your desired network in{" "}
-            <code className="code">src/index.js</code>, then modify the{" "}
-            <code className="code">src/App.js</code> file!
-          </p>
+        <p> Connecting with ConnectWallet </p>
+        <ConnectWallet
+          modalSize="compact"
+          dropdownPosition={{
+            align: "start",
+            side: "bottom",
+          }}
+        />
 
-          <div className="connect">
-            <ConnectWallet
-              dropdownPosition={{
-                side: "bottom",
-                align: "center",
+        <div
+          style={{
+            height: "40px",
+          }}
+        ></div>
+
+        {connectionStatus !== "connected" && (
+          <>
+            <p> Connecting with useConnect hook </p>
+            <button
+              className="btn"
+              onClick={async () => {
+                console.log("connecting....");
+                const wallet = await connect(props.fooBarWallet);
+                console.log("connected");
+                console.log(wallet);
               }}
-            />
-          </div>
-        </div>
+            >
+              {connectionStatus === "connecting"
+                ? "Connecting..."
+                : "Custom Connect"}
+            </button>
+          </>
+        )}
 
-        <div className="grid">
-          <a
-            href="https://portal.thirdweb.com/"
-            className="card"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <img
-              src="/images/portal-preview.png"
-              alt="Placeholder preview of starter"
-            />
-            <div className="card-text">
-              <h2 className="gradient-text-1">Portal ➜</h2>
-              <p>
-                Guides, references, and resources that will help you build with
-                thirdweb.
-              </p>
-            </div>
-          </a>
+        {connectionStatus === "connected" && (
+          <>
+            <p> disconnecting with useDisconnect hook </p>
+            <button
+              className="btn"
+              onClick={() => {
+                disconnect();
+              }}
+            >
+              disconnect
+            </button>
+          </>
+        )}
 
-          <a
-            href="https://thirdweb.com/dashboard"
-            className="card"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <img
-              src="/images/dashboard-preview.png"
-              alt="Placeholder preview of starter"
-            />
-            <div className="card-text">
-              <h2 className="gradient-text-2">Dashboard ➜</h2>
-              <p>
-                Deploy, configure, and manage your smart contracts from the
-                dashboard.
-              </p>
-            </div>
-          </a>
+        <div
+          style={{
+            height: "40px",
+          }}
+        ></div>
 
-          <a
-            href="https://thirdweb.com/templates"
-            className="card"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <img
-              src="/images/templates-preview.png"
-              alt="Placeholder preview of templates"
-            />
-            <div className="card-text">
-              <h2 className="gradient-text-3">Templates ➜</h2>
-              <p>
-                Discover and clone template projects showcasing thirdweb
-                features.
-              </p>
-            </div>
-          </a>
-        </div>
+        <p> Connectiong status : {connectionStatus}</p>
+        {address && <p> address: {address}</p>}
       </div>
     </main>
   );

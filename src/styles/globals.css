@@ -20,3 +20,16 @@ body {
   color: #e7e8e8;
   background: #070707;
 }
+
+.btn {
+  all: unset;
+  padding: 0.8em 1em;
+  font-weight: 500;
+  font-size: 16px;
+  background: white;
+  color: black;
+  font-family: inherit;
+  border-radius: 8px;
+  cursor: pointer;
+  background: yellow;
+}
