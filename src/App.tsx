@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <main className="main">
       <div className="connect">
-        <p> wide modal </p>
+        {/* <p> wide modal </p> */}
         <ConnectWallet
           modalSize="wide"
           dropdownPosition={{
@@ -14,16 +14,18 @@ export default function Home() {
           }}
         />
 
-        {spacer}
+        {/* {spacer} */}
 
-        <p> compact modal </p>
+        {/* <p> compact modal </p>
         <ConnectWallet
           modalSize="compact"
           dropdownPosition={{
             side: "bottom",
             align: "center",
           }}
-        />
+        /> */}
+
+        {/*
 
         {spacer}
 
@@ -114,7 +116,7 @@ export default function Home() {
           }}
         >
           Claim NFT
-        </Web3Button>
+        </Web3Button> */}
       </div>
     </main>
   );
