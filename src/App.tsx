@@ -4,7 +4,6 @@ import {
   WalletConfig,
   coinbaseWallet,
   metamaskWallet,
-  rainbowWallet,
   signerWallet,
   useAddress,
   useConnect,
