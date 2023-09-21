@@ -1,99 +1,68 @@
-import { ConnectWallet } from "@thirdweb-dev/react";
+import {
+  ConnectWallet,
+  useAddress,
+  useConnect,
+  useConnectionStatus,
+  useWalletConnect,
+} from "@thirdweb-dev/react";
 import "./styles/Home.css";
+import { styled, css } from "styled-components";
 
 export default function Home() {
+  const walletConnect = useWalletConnect();
+  const connectionStatus = useConnectionStatus();
+  const address = useAddress();
   return (
     <main className="main">
       <div className="container">
-        <div className="header">
-          <h1 className="title">
-            Welcome to{" "}
-            <span className="gradient-text-0">
-              <a
-                href="https://thirdweb.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                thirdweb.
-              </a>
-            </span>
-          </h1>
+        <ConnectWallet
+          dropdownPosition={{
+            side: "bottom",
+            align: "center",
+          }}
+        />
 
-          <p className="description">
-            Get started by configuring your desired network in{" "}
-            <code className="code">src/index.js</code>, then modify the{" "}
-            <code className="code">src/App.js</code> file!
-          </p>
+        <div
+          style={{
+            height: "50px",
+          }}
+        ></div>
 
-          <div className="connect">
-            <ConnectWallet
-              dropdownPosition={{
-                side: "bottom",
-                align: "center",
-              }}
-            />
-          </div>
-        </div>
-
-        <div className="grid">
-          <a
-            href="https://portal.thirdweb.com/"
-            className="card"
-            target="_blank"
-            rel="noopener noreferrer"
+        {connectionStatus !== "connected" && (
+          <Button
+            onClick={async () => {
+              const wallet = await walletConnect();
+            }}
           >
-            <img
-              src="/images/portal-preview.png"
-              alt="Placeholder preview of starter"
-            />
-            <div className="card-text">
-              <h2 className="gradient-text-1">Portal ➜</h2>
-              <p>
-                Guides, references, and resources that will help you build with
-                thirdweb.
-              </p>
-            </div>
-          </a>
+            {connectionStatus === "connecting"
+              ? "Connecting..."
+              : "Connect with WC"}
+          </Button>
+        )}
 
-          <a
-            href="https://thirdweb.com/dashboard"
-            className="card"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <img
-              src="/images/dashboard-preview.png"
-              alt="Placeholder preview of starter"
-            />
-            <div className="card-text">
-              <h2 className="gradient-text-2">Dashboard ➜</h2>
-              <p>
-                Deploy, configure, and manage your smart contracts from the
-                dashboard.
-              </p>
-            </div>
-          </a>
-
-          <a
-            href="https://thirdweb.com/templates"
-            className="card"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <img
-              src="/images/templates-preview.png"
-              alt="Placeholder preview of templates"
-            />
-            <div className="card-text">
-              <h2 className="gradient-text-3">Templates ➜</h2>
-              <p>
-                Discover and clone template projects showcasing thirdweb
-                features.
-              </p>
-            </div>
-          </a>
-        </div>
+        {connectionStatus === "connected" && <p> Connected to {address} </p>}
       </div>
     </main>
   );
 }
+
+const Button = styled.button`
+  all: unset;
+  cursor: pointer;
+
+  /* This renders the buttons above... Edit me! */
+  background: ${(props) => props.theme.accent};
+  border-radius: 3px;
+  color: white;
+  display: inline-block;
+  padding: 0.5rem;
+  transition: all 200ms ease-in-out;
+
+  &:hover {
+    filter: brightness(0.85);
+  }
+
+  &:active {
+    filter: brightness(1);
+  }
+`;
