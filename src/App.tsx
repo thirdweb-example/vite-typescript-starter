@@ -19,14 +19,9 @@ export default function Home() {
             </span>
           </h1>
 
-          <p className="description">
-            Get started by configuring your desired network in{" "}
-            <code className="code">src/index.js</code>, then modify the{" "}
-            <code className="code">src/App.js</code> file!
-          </p>
-
           <div className="connect">
             <ConnectWallet
+              switchToActiveChain={true}
               dropdownPosition={{
                 side: "bottom",
                 align: "center",
