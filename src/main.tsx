@@ -1,7 +1,11 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
 import App from "./App";
-import { ThirdwebProvider } from "@thirdweb-dev/react";
+import {
+  ThirdwebProvider,
+  defaultWallets,
+  embeddedWallet,
+} from "@thirdweb-dev/react";
 import "./styles/globals.css";
 
 // This is the chain your dApp will work on.
@@ -14,8 +18,9 @@ const root = createRoot(container!);
 root.render(
   <React.StrictMode>
     <ThirdwebProvider
-      clientId={import.meta.env.VITE_TEMPLATE_CLIENT_ID}
+      clientId={"b85c4c5221889bf3dbd1b3a387c6f4c3"} // USER MANAGED test
       activeChain={activeChain}
+      supportedWallets={[embeddedWallet(), ...defaultWallets]}
     >
       <App />
     </ThirdwebProvider>
