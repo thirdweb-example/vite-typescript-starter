@@ -2015,10 +2015,10 @@
     buffer-reverse "^1.0.1"
     treeify "^1.1.0"
 
-"@thirdweb-dev/react-core@0.0.0-dev-138ba73-20231117133932":
-  version "0.0.0-dev-138ba73-20231117133932"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react-core/-/react-core-0.0.0-dev-138ba73-20231117133932.tgz#d9d1128cdd56e400e5836bb3196979c0eeeb1f7e"
-  integrity sha512-np4qUBL6InTZ1jebrWSzr0kfkbKwt13+L6ob3eK8iDSUENCUWHE7PJRwGhuhynSwtM4w//wEAe+JbtFksPaHCA==
+"@thirdweb-dev/react-core@0.0.0-dev-27f2206-20231117142227":
+  version "0.0.0-dev-27f2206-20231117142227"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react-core/-/react-core-0.0.0-dev-27f2206-20231117142227.tgz#67320a30b1853d92eef704816b55ffaea0ffd17a"
+  integrity sha512-ezGEE42j/XrxWEUJwQbHeHo3uxWPMF6ySZZIuNNDS/9/bApz0EiAzq+e/ocgNh7oxg4PdTfAvIcqKSlyTezivQ==
   dependencies:
     "@tanstack/react-query" "^4.33.0"
     "@thirdweb-dev/auth" "4.1.9"
@@ -2030,10 +2030,10 @@
     mime "3.0.0"
     tiny-invariant "^1.2.0"
 
-"@thirdweb-dev/react@0.0.0-dev-138ba73-20231117133932":
-  version "0.0.0-dev-138ba73-20231117133932"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react/-/react-0.0.0-dev-138ba73-20231117133932.tgz#fb20a38afac4af34e020d3a169fecdd39ad8eb3e"
-  integrity sha512-4fXIqmy+pAsJGliNibByZHRkUoXMCsEFzPicvQjSTkDkO9j8rvyNwHt+d360F09cWWv8reOOOKlgjkTq9aUacg==
+"@thirdweb-dev/react@0.0.0-dev-27f2206-20231117142227":
+  version "0.0.0-dev-27f2206-20231117142227"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react/-/react-0.0.0-dev-27f2206-20231117142227.tgz#52cd2a1b2568d26fccda478d210e7fb3241fef9d"
+  integrity sha512-ymphDNvvNjhbUnxeCUiLBvt3rZfx79NVgtdfait+gUufm4UDzIP6GF+hceJQ4LFKHXWB+i2l/fiA/vu0oBWF7w==
   dependencies:
     "@emotion/react" "^11.11.1"
     "@emotion/styled" "^11.11.0"
@@ -2048,7 +2048,7 @@
     "@react-icons/all-files" "^4.1.0"
     "@tanstack/react-query" "^4.33.0"
     "@thirdweb-dev/chains" "0.1.58"
-    "@thirdweb-dev/react-core" "0.0.0-dev-138ba73-20231117133932"
+    "@thirdweb-dev/react-core" "0.0.0-dev-27f2206-20231117142227"
     "@thirdweb-dev/wallets" "2.1.6"
     buffer "^6.0.3"
     copy-to-clipboard "^3.3.2"
