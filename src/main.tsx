@@ -4,6 +4,7 @@ import App from "./App";
 import {
   ThirdwebProvider,
   defaultWallets,
+  embeddedWallet,
   safeWallet,
   smartWallet,
 } from "@thirdweb-dev/react";
@@ -28,7 +29,7 @@ function AppWithProvider() {
     "normal"
   );
 
-  let wallets = defaultWallets;
+  let wallets = [...defaultWallets, embeddedWallet()];
 
   if (mode === "smart") {
     wallets = wallets.map((w) => {
