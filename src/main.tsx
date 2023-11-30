@@ -30,8 +30,10 @@ function AppWithProviders() {
       activeChain={activeChain}
       supportedWallets={[
         metamaskWallet({
-          connectionMethod: useWC ? "walletconnect" : "metamaskBrowser",
+          connectionMethod: useWC ? "walletConnect" : "metamaskBrowser",
         }),
+        coinbaseWallet(),
+        walletConnect(),
       ]}
     >
       {/* two checkboxes  */}
