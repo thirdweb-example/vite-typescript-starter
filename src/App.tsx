@@ -45,7 +45,6 @@ export default function Home() {
             contractAddress="0xbE65bb2463C83748b4681869a4A97f11E91094D4" // fantom testnet
             action={async (contract) => {
               await contract.erc1155.claim(0, 1);
-              alert("claimed successfully");
             }}
             onError={(e) => {
               alert(e.message);
