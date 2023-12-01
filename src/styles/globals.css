@@ -20,3 +20,11 @@ body {
   color: #e7e8e8;
   background: #070707;
 }
+
+.btn {
+  padding: 0.8em 1.2em;
+  border-radius: 0.5rem;
+  font-size: 18px;
+  border: none;
+  outline: none;
+}
