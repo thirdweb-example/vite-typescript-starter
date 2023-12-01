@@ -39,6 +39,7 @@ export default function Home() {
           <br />
           <br />
           <br />
+          <h3>Claim ERC1155 NFT on Fantom Testnet</h3>
 
           <Web3Button
             contractAddress="0xbE65bb2463C83748b4681869a4A97f11E91094D4" // fantom testnet
@@ -47,8 +48,8 @@ export default function Home() {
               alert("claimed successfully");
             }}
             onError={(e) => {
-              alert("Error");
-              console.error(e);
+              alert(e.message);
+              console.error(e.message);
             }}
             onSuccess={(data) => {
               alert("minted successfully");
