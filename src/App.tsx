@@ -41,7 +41,7 @@ export default function Home() {
           <br />
 
           <Web3Button
-            contractAddress="0x88f54479F9DB46c2d97823D01CC316aa88B54a33" // mumbai
+            contractAddress="0xbE65bb2463C83748b4681869a4A97f11E91094D4" // fantom testnet
             action={async (contract) => {
               await contract.erc1155.claim(0, 1);
               alert("claimed successfully");
