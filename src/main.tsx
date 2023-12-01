@@ -5,7 +5,10 @@ import {
   ThirdwebProvider,
   coinbaseWallet,
   metamaskWallet,
+  okxWallet,
+  rainbowWallet,
   walletConnect,
+  zerionWallet,
 } from "@thirdweb-dev/react";
 import "./styles/globals.css";
 import { FantomTestnet } from "@thirdweb-dev/chains";
@@ -35,6 +38,9 @@ function AppWithProviders() {
         }),
         coinbaseWallet(),
         walletConnect(),
+        zerionWallet(),
+        rainbowWallet(),
+        okxWallet(),
       ]}
     >
       {/* two checkboxes  */}

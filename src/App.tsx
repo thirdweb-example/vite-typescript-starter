@@ -51,7 +51,7 @@ export default function Home() {
               console.error(e.message);
             }}
             onSuccess={(data) => {
-              alert("minted successfully");
+              alert("claimed successfully");
             }}
             onSubmit={() => {
               console.log("Submitting");
