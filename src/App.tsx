@@ -74,7 +74,7 @@ export const ApproveButton = () => {
   };
 
   return isLoading || contractLoading ? (
-    "loading...."
+    <div>Loading....</div>
   ) : (
     <button
       onClick={callApproval}
