@@ -42,7 +42,8 @@ export const ApproveButton = () => {
     contract,
     isLoading: contractLoading,
     error: contractError,
-  } = useContract("0xc2132D05D31c914a87C6611C10748AEb04B58e8F", "erc20");
+  } = useContract("0xc2132D05D31c914a87C6611C10748AEb04B58e8F");
+
   const [isLoading, setIsLoading] = useState(false);
 
   const callApproval = async () => {
