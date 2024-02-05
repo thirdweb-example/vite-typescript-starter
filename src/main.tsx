@@ -13,6 +13,21 @@ import { XrpLedgerEvmDevnetSidechain } from "@thirdweb-dev/chains";
 const container = document.getElementById("root");
 const root = createRoot(container!);
 
+// const customChain = {
+//   chainId: 1440002,
+//   rpc: ["https://rpc-evm-sidechain.xrpl.org"],
+//   nativeCurrency: {
+//     decimals: 18,
+//     name: "XRP",
+//     symbol: "XRP",
+//   },
+//   shortName: "XRPL",
+//   slug: "XRPL",
+//   testnet: true,
+//   chain: "XRPL EVM Sidechain Devnet",
+//   name: "XRPL EVM Sidechain Devnet",
+// };
+
 const customChain = {
   ...XrpLedgerEvmDevnetSidechain,
   chainId: 1440002,
@@ -23,7 +38,6 @@ root.render(
     <ThirdwebProvider
       clientId={import.meta.env.VITE_TEMPLATE_CLIENT_ID}
       activeChain={customChain}
-      supportedChains={[customChain]}
       supportedWallets={[
         embeddedWallet({
           auth: {
