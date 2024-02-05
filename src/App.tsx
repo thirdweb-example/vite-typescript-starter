@@ -1,99 +1,89 @@
-import { ConnectWallet } from "@thirdweb-dev/react";
+import {
+  ConnectWallet,
+  Web3Button,
+  useChainId,
+  useContract,
+  useContractRead,
+  useContractWrite,
+  useEmbeddedWallet,
+} from "@thirdweb-dev/react";
 import "./styles/Home.css";
 
 export default function Home() {
+  const { connect } = useEmbeddedWallet();
+  const chainId = useChainId();
+
+  console.log("chainId", chainId);
+
+  async function login() {
+    try {
+      const wallet = await connect({
+        strategy: "google",
+      });
+
+      if (wallet) {
+        const walletAddress = await wallet.getAddress();
+        const email = wallet.getEmail();
+        console.log({ walletAddress, email });
+      } else {
+        console.log(wallet, "Error signing in. Please try again later.");
+        return false;
+      }
+    } catch (error) {
+      console.error(`Error socialLogin: `, error);
+      return false;
+    }
+  }
+
   return (
     <main className="main">
-      <div className="container">
-        <div className="header">
-          <h1 className="title">
-            Welcome to{" "}
-            <span className="gradient-text-0">
-              <a
-                href="https://thirdweb.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                thirdweb.
-              </a>
-            </span>
-          </h1>
-
-          <p className="description">
-            Get started by configuring your desired network in{" "}
-            <code className="code">src/index.js</code>, then modify the{" "}
-            <code className="code">src/App.js</code> file!{" "}
-          </p>
-
-          <div className="connect">
-            <ConnectWallet
-              dropdownPosition={{
-                side: "bottom",
-                align: "center",
-              }}
-            />
-          </div>
-        </div>
-
-        <div className="grid">
-          <a
-            href="https://portal.thirdweb.com/"
-            className="card"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <img
-              src="/images/portal-preview.png"
-              alt="Placeholder preview of starter"
-            />
-            <div className="card-text">
-              <h2 className="gradient-text-1">Portal ➜</h2>
-              <p>
-                Guides, references, and resources that will help you build with
-                thirdweb.
-              </p>
-            </div>
-          </a>
-
-          <a
-            href="https://thirdweb.com/dashboard"
-            className="card"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <img
-              src="/images/dashboard-preview.png"
-              alt="Placeholder preview of starter"
-            />
-            <div className="card-text">
-              <h2 className="gradient-text-2">Dashboard ➜</h2>
-              <p>
-                Deploy, configure, and manage your smart contracts from the
-                dashboard.
-              </p>
-            </div>
-          </a>
-
-          <a
-            href="https://thirdweb.com/templates"
-            className="card"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <img
-              src="/images/templates-preview.png"
-              alt="Placeholder preview of templates"
-            />
-            <div className="card-text">
-              <h2 className="gradient-text-3">Templates ➜</h2>
-              <p>
-                Discover and clone template projects showcasing thirdweb
-                features.
-              </p>
-            </div>
-          </a>
-        </div>
-      </div>
+      <button onClick={login}>login</button>
+      <ConnectWallet />
+      <ContractInteractTest />
     </main>
+  );
+}
+
+const contractStorage1 = "0x2603CFb7e08e31035c3C027b9C12aD66cBD3613A";
+
+const abi = `[{"type":"function","stateMutability":"view","outputs":[{"type":"uint256","name":"","internalType":"uint256"}],"name":"retrieve","inputs":[]},{"type":"function","stateMutability":"nonpayable","outputs":[],"name":"store","inputs":[{"type":"uint256","name":"num","internalType":"uint256"}]}]`;
+
+function ContractInteractTest() {
+  const { contract } = useContract(contractStorage1, abi);
+  const value1 = useContractRead(contract, "retrieve");
+
+  // write
+  const { mutateAsync: store } = useContractWrite(contract, "store");
+
+  async function call() {
+    try {
+      const data = await store({ args: [6] });
+      console.info("contract call successs", data);
+    } catch (err) {
+      console.error("contract call failure", err);
+    }
+  }
+
+  console.log("value1", value1.data);
+
+  return (
+    <div>
+      <Web3Button
+        contractAddress={contractStorage1}
+        action={async () => {
+          try {
+            const data = await store({ args: [6] });
+            console.info("contract call successs", data);
+          } catch (err) {
+            console.error("contract call failure", err);
+          }
+        }}
+      >
+        Update Store value
+      </Web3Button>
+      <button onClick={call}>Update Store value</button>
+
+      <p>Store value: {value1.data ? value1.data.toString() : "loading..."}</p>
+    </div>
   );
 }
