@@ -1,4 +1,5 @@
 import {
+  ConnectWallet,
   Web3Button,
   useAddress,
   useContract,
@@ -10,14 +11,12 @@ import "./styles/Home.css";
 
 // https://evm-sidechain.xrpl.org/address/0x2603CFb7e08e31035c3C027b9C12aD66cBD3613A/contracts#address-tabs
 const contractAddress = "0x2603CFb7e08e31035c3C027b9C12aD66cBD3613A";
-const abi = `[{"type":"function","stateMutability":"view","outputs":[{"type":"uint256","name":"","internalType":"uint256"}],"name":"retrieve","inputs":[]},{"type":"function","stateMutability":"nonpayable","outputs":[],"name":"store","inputs":[{"type":"uint256","name":"num","internalType":"uint256"}]}]`;
 
 export default function Home() {
-  const { contract } = useContract(contractAddress, abi);
+  const { contract } = useContract(contractAddress);
   const valueQuery = useContractRead(contract, "retrieve");
-  const address = useAddress();
-  const disconnect = useDisconnect();
 
+  console.log("valueQuery", valueQuery.data);
   // write
   const { mutateAsync: store } = useContractWrite(contract, "store");
 
@@ -34,7 +33,8 @@ export default function Home() {
         contractAddress={contractAddress}
         action={async () => {
           try {
-            const data = await store({ args: [6] });
+            const num = Math.floor(Math.random() * 100); // random number between 0 and 100
+            const data = await store({ args: [num] });
             console.info("contract call successs", data);
           } catch (err) {
             console.error("contract call failure", err);
@@ -50,18 +50,10 @@ export default function Home() {
           ? "Loading..."
           : valueQuery.isError
           ? "Error"
-          : valueQuery.data}
+          : valueQuery.data.toString()}
       </p>
 
-      {address && (
-        <button
-          onClick={() => {
-            disconnect();
-          }}
-        >
-          Disconnect
-        </button>
-      )}
+      <ConnectWallet />
     </main>
   );
 }

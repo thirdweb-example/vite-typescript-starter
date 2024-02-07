@@ -32,7 +32,6 @@ const customChain = {
   ...XrpLedgerEvmDevnetSidechain,
   chainId: 1440002,
 };
-
 root.render(
   <React.StrictMode>
     <ThirdwebProvider
