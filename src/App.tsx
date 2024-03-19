@@ -1,6 +1,8 @@
 import {
+  useAddress,
   useConnect,
   useConnectionStatus,
+  useDisconnect,
   walletConnect,
 } from "@thirdweb-dev/react";
 import "./styles/Home.css";
@@ -13,6 +15,8 @@ const config = walletConnect({
 
 export default function Example() {
   const connect = useConnect();
+  const disconnect = useDisconnect();
+  const address = useAddress();
   const connectionStatus = useConnectionStatus();
 
   async function handleConnect() {
@@ -22,8 +26,17 @@ export default function Example() {
   return (
     <main className="main">
       <div className="container">
-        <button onClick={handleConnect}>connect</button>
-        <p> {connectionStatus === "connecting" && "Connecting...."}</p>
+        {connectionStatus !== "connected" && (
+          <button onClick={handleConnect}>connect</button>
+        )}
+
+        <p> {connectionStatus === "connecting" && "opening modal..."}</p>
+
+        {address && <p> connected to {address}</p>}
+
+        {connectionStatus === "connected" && (
+          <button onClick={disconnect}> disconnect </button>
+        )}
       </div>
     </main>
   );

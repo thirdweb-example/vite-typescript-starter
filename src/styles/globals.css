@@ -20,3 +20,9 @@ body {
   color: #e7e8e8;
   background: #070707;
 }
+
+button {
+  padding: 0.6rem 1rem;
+  font-size: 20px;
+  border-radius: 8px;
+}
