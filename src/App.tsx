@@ -1,93 +1,74 @@
-import { ConnectWallet } from "@thirdweb-dev/react";
+import { ConnectWallet, useAddress } from "@thirdweb-dev/react";
 import "./styles/Home.css";
 
+import { Binance } from "@thirdweb-dev/chains";
+import {
+  useContract,
+  useContractWrite,
+  useSwitchChain,
+  useChainId,
+} from "@thirdweb-dev/react";
+import { ethers } from "ethers";
+
+export function BNBContractTest() {
+  const {
+    contract,
+    isLoading: contractIsLoading,
+    isError,
+  } = useContract("0xAa889fc852d065c37d762Dbc7295c7C9A3309B30");
+  const { mutateAsync: buyTokens, isLoading } = useContractWrite(
+    contract,
+    "buyTokens"
+  );
+
+  const activeChainId = useChainId();
+  const switchChain = useSwitchChain();
+
+  if (activeChainId !== Binance.chainId) {
+    return (
+      <div>
+        connect to binance
+        <button onClick={() => switchChain(Binance.chainId)}> switch </button>
+      </div>
+    );
+  }
+
+  let bnbAmount = "0.005";
+
+  const call = async () => {
+    try {
+      const data = await buyTokens({
+        overrides: { value: ethers.utils.parseEther(bnbAmount) },
+      });
+      console.log(data);
+      alert(data);
+    } catch (err) {
+      console.error(err);
+      alert(err);
+    }
+  };
+
+  return (
+    <div>
+      {contractIsLoading ? "contract loading..." : null}
+      {isError ? "contract failed to load" : null}
+      <button onClick={call}> call </button>
+    </div>
+  );
+}
+
 export default function Home() {
+  const address = useAddress();
   return (
     <main className="main">
       <div className="container">
         <div className="header">
-          <h1 className="title">
-            Welcome to{" "}
-            <span className="gradient-text-0">
-              <a
-                href="https://thirdweb.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                thirdweb.
-              </a>
-            </span>
-          </h1>
-
-          <p className="description">
-            Get started by configuring your desired network in{" "}
-            <code className="code">src/index.js</code>, then modify the{" "}
-            <code className="code">src/App.js</code> file!{" "}
-          </p>
-
           <div className="connect">
             <ConnectWallet />
           </div>
         </div>
 
-        <div className="grid">
-          <a
-            href="https://portal.thirdweb.com/"
-            className="card"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <img
-              src="/images/portal-preview.png"
-              alt="Placeholder preview of starter"
-            />
-            <div className="card-text">
-              <h2 className="gradient-text-1">Portal ➜</h2>
-              <p>
-                Guides, references, and resources that will help you build with
-                thirdweb.
-              </p>
-            </div>
-          </a>
-
-          <a
-            href="https://thirdweb.com/dashboard"
-            className="card"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <img
-              src="/images/dashboard-preview.png"
-              alt="Placeholder preview of starter"
-            />
-            <div className="card-text">
-              <h2 className="gradient-text-2">Dashboard ➜</h2>
-              <p>
-                Deploy, configure, and manage your smart contracts from the
-                dashboard.
-              </p>
-            </div>
-          </a>
-
-          <a
-            href="https://thirdweb.com/templates"
-            className="card"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <img
-              src="/images/templates-preview.png"
-              alt="Placeholder preview of templates"
-            />
-            <div className="card-text">
-              <h2 className="gradient-text-3">Templates ➜</h2>
-              <p>
-                Discover and clone template projects showcasing thirdweb
-                features.
-              </p>
-            </div>
-          </a>
-        </div>
+        {address && <BNBContractTest />}
       </div>
     </main>
   );
